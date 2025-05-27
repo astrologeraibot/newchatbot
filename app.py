@@ -17,7 +17,7 @@ birth_time = st.time_input("Birth Time")
 
 @st.cache_data
 def load_city_data():
-    return pd.read_excel("worldcities.xlsx")  # You uploaded this file earlier
+    return pd.read_excel("worldcities.csv")  # You uploaded this file earlier
 
 cities_df = load_city_data()
 
