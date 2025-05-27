@@ -14,7 +14,12 @@ st.title("🪐 Natal (Birth) Chart Generator - Offline")
 name = st.text_input("Your Name")
 birth_date = st.date_input("Birth Date")
 birth_time = st.time_input("Birth Time")
+@st.cache_data
+def load_city_data():
+    return pd.read_csv("worldcities.csv")
 
+cities_df = load_city_data()
+selected_city = st.selectbox("Choose your city", cities_df["city"].unique())
 if st.button("Generate Natal Chart"):
     # Convert to Julian Day
     dt = datetime.datetime.combine(birth_date, birth_time)
@@ -64,9 +69,4 @@ if st.button("Generate Natal Chart"):
 
     st.pyplot(fig)
 
-@st.cache_data
-def load_city_data():
-    return pd.read_csv("worldcities.csv")
 
-cities_df = load_city_data()
-selected_city = st.selectbox("Choose your city", cities_df["city"].unique())
