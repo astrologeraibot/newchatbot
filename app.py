@@ -14,12 +14,36 @@ st.title("🪐 Natal (Birth) Chart Generator - Offline")
 name = st.text_input("Your Name")
 birth_date = st.date_input("Birth Date")
 birth_time = st.time_input("Birth Time")
+import streamlit as st
+import pandas as pd
+
 @st.cache_data
 def load_city_data():
     return pd.read_csv("worldcities.csv")
 
+# Load cities data
 cities_df = load_city_data()
-selected_city = st.selectbox("Choose your city", cities_df["city"].unique())
+
+# User input: place of birth
+place_input = st.text_input("Enter your Place of Birth (City Name)")
+
+# Search the city in the dataset
+if place_input:
+    # Case-insensitive match
+    matches = cities_df[cities_df["city"].str.lower() == place_input.lower()]
+    
+    if not matches.empty:
+        city_info = matches.iloc[0]
+        lat = city_info["lat"]
+        lng = city_info["lng"]
+        st.success(f"Found location: {city_info['city']}, {city_info['country']} (Lat: {lat}, Lng: {lng})")
+    else:
+        st.warning("City not found in the database. Please check the spelling.")
+
+
+
+
+
 if st.button("Generate Natal Chart"):
     # Convert to Julian Day
     dt = datetime.datetime.combine(birth_date, birth_time)
