@@ -14,8 +14,6 @@ st.title("🪐 Natal (Birth) Chart Generator - Offline")
 name = st.text_input("Your Name")
 birth_date = st.date_input("Birth Date")
 birth_time = st.time_input("Birth Time")
-lat = st.number_input("Latitude (e.g., 28.6139 for Delhi)", format="%.4f")
-lon = st.number_input("Longitude (e.g., 77.2090 for Delhi)", format="%.4f")
 
 if st.button("Generate Natal Chart"):
     # Convert to Julian Day
