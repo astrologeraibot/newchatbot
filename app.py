@@ -3,6 +3,7 @@ import swisseph as swe
 import datetime
 import matplotlib.pyplot as plt
 import os
+import pandas as pd
 
 # Set the path to the Swiss Ephemeris data
 swe.set_ephe_path("ephe")
@@ -64,3 +65,26 @@ if st.button("Generate Natal Chart"):
         ax.text(x, y, planet[0], ha='center', va='center', fontsize=10, color='blue')
 
     st.pyplot(fig)
+
+import streamlit as st
+import pandas as pd
+
+# Load world cities from CSV
+@st.cache_data
+def load_city_data():
+    df = pd.read_csv("worldcities.csv")
+    df = df[["city", "country", "lat", "lng"]]
+    df["label"] = df["city"] + ", " + df["country"]
+    return df
+
+cities_df = load_city_data()
+
+# Autocomplete dropdown with search
+city_input = st.selectbox("Enter your Birthplace:", cities_df["label"].sort_values())
+
+# Get lat/lon for selected city
+selected_city = cities_df[cities_df["label"] == city_input].iloc[0]
+latitude = selected_city["lat"]
+longitude = selected_city["lng"]
+st.success(f"📍 Selected: {city_input} (Lat: {latitude}, Lon: {longitude})")
+
