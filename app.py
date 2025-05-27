@@ -60,13 +60,15 @@ if st.button("Generate Natal Chart"):
     positions = []
 
     for pid in planets.keys():
-        lon, lat_, dist = swe.calc_ut(jd, pid)[0]
-        sign = int(lon // 30)
-        sign_names = ['♈ Aries', '♉ Taurus', '♊ Gemini', '♋ Cancer', '♌ Leo',
-                      '♍ Virgo', '♎ Libra', '♏ Scorpio', '♐ Sagittarius', '♑ Capricorn',
-                      '♒ Aquarius', '♓ Pisces']
-        positions.append((planets[pid], lon, sign_names[sign]))
-        st.write(f"🌟 {planets[pid]}: {lon:.2f}° in {sign_names[sign]}")
+    result, _ = swe.calc_ut(jd, pid)
+    lon, lat_, dist = result
+    sign = int(lon // 30)
+    sign_names = ['♈ Aries', '♉ Taurus', '♊ Gemini', '♋ Cancer', '♌ Leo',
+                  '♍ Virgo', '♎ Libra', '♏ Scorpio', '♐ Sagittarius', '♑ Capricorn',
+                  '♒ Aquarius', '♓ Pisces']
+    positions.append((planets[pid], lon, sign_names[sign]))
+    st.write(f"🌟 {planets[pid]}: {lon:.2f}° in {sign_names[sign]}")
+
 
     # Plot simple natal wheel
     fig, ax = plt.subplots(figsize=(6, 6))
